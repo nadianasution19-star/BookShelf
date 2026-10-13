@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth scroll-pt-32"></html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bookshelf</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style>
+    body { font-family: "Playfair Display", serif; }
+  </style>
+</head>
+
+<body class="bg-amber-50 text-slate-900">
+  <header class="bg-slate-900 text-[#F6F1E4] sticky top-0 z-50">
+    <nav class="max-w-6xl mx-auto flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 sm:p-5 md:grid md:grid-cols-[1fr_auto_1fr]">
+      <a href="index.html" class="text-2xl font-bold">BOOKSHELF</a>
+
+      <div class="order-3 flex w-full flex-wrap justify-center gap-x-5 gap-y-1 text-sm sm:text-base md:order-none md:w-auto">
+        <a href="index.html" class="hover:underline">Beranda</a>
+        <a href="index.html#kategori" class="hover:underline">Kategori</a>
+        <a href="index.html#terpopuler" class="hover:underline">Terpopuler</a>
+        <a href="index.html#newsletter" class="hover:underline">Newsletter</a>
+        <a href="katalog.html" class="hover:underline">Koleksi</a>
+      </div>
+
+       <div class="flex items-center justify-end gap-4">
+        <a href="katalog.html#wishlist" aria-label="Wishlist" title="Wishlist" class="hover:text-amber-400">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 21s-7-4.6-9.3-9A5.4 5.4 0 0 1 12 6a5.4 5.4 0 0 1 9.3 6c-2.3 4.4-9.3 9-9.3 9z"/>
+          </svg>
+        </a>
+        <a href="keranjang.html" aria-label="Keranjang" title="Keranjang" class="hover:text-amber-400">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 4h2l2.5 11h10L20 7H6"/>
+            <circle cx="9" cy="20" r="1.5"/>
+            <circle cx="17" cy="20" r="1.5"/>
+          </svg>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-5">
+    <section class="py-16 border-b-4 border-double border-amber-600">
+      <p class="text-amber-700 tracking-widest uppercase text-sm mb-3">Koleksi pilihan</p>
+
+      <h1 class="text-4xl md:text-6xl font-bold max-w-3xl mb-6">
+        "Bacaan berkualitas untuk pembaca yang cermat"
+      </h1>
+
+      <p class="text-lg max-w-xl mb-8">
+        Temukan buku fiksi, non-fiksi, hingga pengembangan diri. <br>
+        Pilih, simpan ke wishlist, dan bawa pulang bacaan berikutnya!
+      </p>
+
+      <div class="flex flex-wrap gap-4">
+        <a href="katalog.html" class="bg-slate-900 border-2 border-slate-900 text-[#F6F1E4] px-6 py-3 font-bold transition hover:bg-black hover:border-black">
+          Jelajahi koleksi
+        </a>
+        <a href="#newsletter" class="border-2 border-slate-900 px-6 py-3 font-bold hover:bg-slate-900 hover:text-[#F6F1E4]">
+          Daftar newsletter
+        </a>
+      </div>
+    </section>
+
+      <section id="kategori" class="py-12">
+      <h2 class="text-2xl font-bold mb-4">Kategori</h2>
+
+      <div class="flex flex-col max-w-xs">
+        <a href="katalog.html?kategori=Fiksi" class="border-b border-amber-200 py-3 hover:text-amber-700">Pendidikan</a>
+        <a href="katalog.html?kategori=Non-Fiksi" class="border-b border-amber-200 py-3 hover:text-amber-700">Teknologi</a>
+        <a href="katalog.html?kategori=Anak" class="border-b border-amber-200 py-3 hover:text-amber-700">Self-Growth</a>
+        <a href="katalog.html?kategori=Komik" class="border-b border-amber-200 py-3 hover:text-amber-700">Bisnis</a>
+        <a href="katalog.html?kategori=Pelajaran" class="border-b border-amber-200 py-3 hover:text-amber-700">Novel</a>
+        <a href="katalog.html?kategori=Self-Growth" class="border-b border-amber-200 py-3 hover:text-amber-700">Komik</a>
+      </div>
+    </section>
+
+    <section id="terpopuler" class="py-8">
+      <div class="border-2 border-dashed border-amber-300 p-10 text-center">
+        Section Buku Terpopuler, dikerjakan oleh Orang 4
+      </div>
+    </section>
+
+    <section id="newsletter" class="py-8">
+      <div class="border-2 border-slate-900 p-8">
+        <h2 class="text-3xl font-bold mb-2">Kabar buku terbaru langsung ke emailmu!</h2>
+        <p class="mb-6">Daftarkan emailmu untuk menerima info buku baru dan rekomendasi pilihan^^</p>
+
+        <form id="form-newsletter" class="flex flex-col sm:flex-row gap-3 max-w-xl">
+          <input
+            id="email"
+            type="text"
+            placeholder="nama@email.com"
+            class="flex-1 border-2 border-slate-900 bg-white px-4 py-3"
+          />
+          <button type="submit" class="bg-slate-900 border-2 border-slate-900 text-[#F6F1E4] px-6 py-3 font-bold transition hover:bg-black hover:border-black">
+            Berlangganan
+          </button>
+        </form>
+
+        <p id="pesan" class="mt-3"></p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="bg-slate-900 text-[#F6F1E4] mt-16">
+    <div class="max-w-6xl mx-auto p-8 text-center">
+      <p class="text-xl font-bold mb-2">BOOKSHELF</p>
+      <p class="mb-4">Toko buku dengan koleksi pilihan untuk pembaca yang cermat~</p>
+      <p class="text-sm text-slate-300">&copy; 2026 BOOKSHELF &middot; Tugas kelompok - cortiz -</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
