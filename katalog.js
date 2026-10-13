@@ -192,7 +192,7 @@ function bookCard(b) {
     '<div class="border-t border-amber-200 mt-2 pt-2 flex items-start justify-between gap-3 text-sm">' +
       "<span>" + rupiah(b.harga) + "</span>" + tombol +
     "</div>" +
-    '<button onclick="openBookModal(' + b.id + ')" class="text-xs underline mt-1">Lihat detail</button>' +
+    '<button onclick="openBookModal(' + b.id + ')" class="mt-3 w-full border-2 border-slate-900 py-2 text-sm font-bold transition hover:bg-slate-900 hover:text-[#F6F1E4]">Lihat detail</button>' +
   "</article>";
 }
 

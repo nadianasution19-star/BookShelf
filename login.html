@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Masuk - Bookshelf</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style>
+    body { font-family: "Playfair Display", serif; }
+  </style>
+</head>
+
+<body class="bg-amber-50 text-slate-900">
+  <header class="bg-slate-900 text-[#F6F1E4]">
+    <nav class="max-w-6xl mx-auto flex items-center justify-between p-4 sm:p-5">
+      <a href="index.html" class="text-2xl font-bold">BOOKSHELF</a>
+      <a href="katalog.html" class="hover:underline">Koleksi</a>
+    </nav>
+  </header>
+
+  <main class="max-w-md mx-auto px-5 py-12">
+    <div class="border-2 border-slate-900 bg-white p-6">
+
+      <div class="flex mb-6 border-b-2 border-slate-900">
+        <button id="tabMasuk" onclick="pilihTab('masuk')" class="flex-1 py-2 font-bold">Masuk</button>
+        <button id="tabDaftar" onclick="pilihTab('daftar')" class="flex-1 py-2 font-bold">Daftar</button>
+      </div>
+
+      <!-- Form Masuk -->
+      <form id="formMasuk" class="flex flex-col gap-3">
+        <input id="mEmail" type="text" placeholder="Email" class="border-2 border-slate-900 px-4 py-3" />
+        <input id="mPassword" type="password" placeholder="Password" class="border-2 border-slate-900 px-4 py-3" />
+        <button type="submit" class="bg-slate-900 border-2 border-slate-900 text-[#F6F1E4] px-6 py-3 font-bold transition hover:bg-black">Masuk</button>
+        <p class="text-sm text-slate-600">Akun contoh: hirono@gmail.com / hirono123</p>
+      </form>
+
+      <!-- Form Daftar -->
+      <form id="formDaftar" class="flex flex-col gap-3 hidden">
+        <input id="dNama" type="text" placeholder="Nama lengkap" class="border-2 border-slate-900 px-4 py-3" />
+        <input id="dEmail" type="text" placeholder="Email" class="border-2 border-slate-900 px-4 py-3" />
+        <input id="dPassword" type="password" placeholder="Password (minimal 6 karakter)" class="border-2 border-slate-900 px-4 py-3" />
+        <input id="dKonfirmasi" type="password" placeholder="Ulangi password" class="border-2 border-slate-900 px-4 py-3" />
+        <button type="submit" class="bg-slate-900 border-2 border-slate-900 text-[#F6F1E4] px-6 py-3 font-bold transition hover:bg-black">Buat akun</button>
+      </form>
+
+      <p id="pesan" class="mt-4"></p>
+    </div>
+  </main>
+
+  <script src="auth.js"></script>
+  <script>
+    function ambilEl(id) { return document.getElementById(id); }
+
+    function tampilPesan(teks, error) {
+      const p = ambilEl("pesan");
+      p.textContent = teks;
+      if (error) { p.className = "mt-4 text-red-700"; } else { p.className = "mt-4 text-green-700"; }
+    }
+
+    function pilihTab(nama) {
+      ambilEl("pesan").textContent = "";
+      if (nama == "masuk") {
+        ambilEl("formMasuk").classList.remove("hidden");
+        ambilEl("formDaftar").classList.add("hidden");
+        ambilEl("tabMasuk").className = "flex-1 py-2 font-bold bg-slate-900 text-[#F6F1E4]";
+        ambilEl("tabDaftar").className = "flex-1 py-2 font-bold";
+      } else {
+        ambilEl("formDaftar").classList.remove("hidden");
+        ambilEl("formMasuk").classList.add("hidden");
+        ambilEl("tabDaftar").className = "flex-1 py-2 font-bold bg-slate-900 text-[#F6F1E4]";
+        ambilEl("tabMasuk").className = "flex-1 py-2 font-bold";
+      }
+    }
+
+    ambilEl("formMasuk").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const error = loginUser(ambilEl("mEmail").value, ambilEl("mPassword").value);
+      if (error != "") {
+        tampilPesan(error, true);
+      } else {
+        tampilPesan("Berhasil masuk. Mengalihkan ke koleksi...", false);
+        setTimeout(function () { location.href = "katalog.html"; }, 800);
+      }
+    });
+
+    ambilEl("formDaftar").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const error = daftarUser(ambilEl("dNama").value, ambilEl("dEmail").value,
+                               ambilEl("dPassword").value, ambilEl("dKonfirmasi").value);
+      if (error != "") {
+        tampilPesan(error, true);
+      } else {
+        ambilEl("mEmail").value = ambilEl("dEmail").value;
+        ambilEl("formDaftar").reset();
+        pilihTab("masuk");
+        tampilPesan("Akun berhasil dibuat. Silakan masuk.", false);
+      }
+    });
+
+    pilihTab("masuk");
+  </script>
+</body>
+</html>

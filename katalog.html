@@ -26,6 +26,7 @@
       </div>
 
       <div class="flex items-center justify-end gap-4">
+        <span id="areaLogin" class="text-sm"></span>
         <a href="katalog.html#wishlist" aria-label="Wishlist" title="Wishlist" class="relative hover:text-amber-400">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M12 21s-7-4.6-9.3-9A5.4 5.4 0 0 1 12 6a5.4 5.4 0 0 1 9.3 6c-2.3 4.4-9.3 9-9.3 9z"/>
@@ -46,7 +47,7 @@
 
   <main class="max-w-6xl mx-auto px-5">
 
-    <!-- ===== Judul halaman ===== -->
+    <!-- ===== Judul halaman ==== -->
     <section class="py-12 border-b-4 border-double border-amber-600">
       <p class="text-amber-700 tracking-widest uppercase text-sm mb-3">Koleksi pilihan</p>
       <h1 class="text-4xl md:text-5xl font-bold max-w-3xl">Semua buku di Bookshelf</h1>
@@ -87,10 +88,13 @@
     </section>
 
     <!-- ===== Wishlist (tempat Orang 3) ===== -->
+    <!-- [DITAMBAHKAN ORANG 3] section Buku Dipilih -->
     <section id="wishlist" class="py-8">
-      <div class="border-2 border-dashed border-amber-300 p-10 text-center">
-        Section Wishlist / Buku Dipilih, dikerjakan oleh Orang 3
-      </div>
+      <h2 class="text-2xl font-bold mb-1">Buku Dipilih (<span id="jumlahWishlist">0</span>)</h2>
+      <p class="mb-1 text-slate-700">Buku yang kamu tandai lewat tombol Tambah ke Wishlist.</p>
+      <p id="infoPelanggan" class="mb-4 text-sm text-slate-600"></p>
+      <ul id="daftarWishlist"></ul>
+      <p id="totalWishlist" class="font-bold mt-4"></p>
     </section>
 
   </main>
@@ -103,9 +107,20 @@
     </div>
   </footer>
 
+
+  <!-- [DITAMBAHKAN ORANG 3] pop-up detail buku -->
+  <div id="modalBuku" onclick="tutupModal()" class="hidden fixed inset-0 z-[60] items-center justify-center bg-black/60 p-4">
+    <div onclick="event.stopPropagation()" role="dialog" aria-modal="true" class="relative bg-amber-50 border-2 border-slate-900 w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 shadow-2xl">
+      <button onclick="tutupModal()" aria-label="Tutup" class="absolute top-3 right-4 text-2xl font-bold">&times;</button>
+      <div id="isiModal"></div>
+    </div>
+  </div>
+
   <!-- Urutan penting: data -> api -> sementara -> catalog -->
   <script src="data.js"></script>
   <script src="api.js"></script>
   <script src="katalog.js"></script>
+  <script src="auth.js"></script>
+  <script src="wishlist.js"></script>
 </body>
 </html>
