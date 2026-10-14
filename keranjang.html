@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth scroll-pt-32">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Keranjang - Bookshelf</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        body { font-family: "Playfair Display", serif; }
+    </style>
+</head>
+
+<body class="bg-amber-50 text-slate-900">
+    <header class="bg-slate-900 text-[#F6F1E4] sticky top-0 z-50">
+        <nav class="max-w-6xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-4 py-3">
+            <a href="index.html" class="text-2xl font-bold">BOOKSHELF</a>
+                <div class="flex flex-wrap justify-center gap-x-5 gap-y-1">
+                    <a href="index.html" class="hover:underline">Beranda</a>
+                    <a href="index.html#kategori" class="hover:underline">Kategori</a>
+                    <a href="index.html#terpopuler" class="hover:underline">Terpopuler</a>
+                    <a href="index.html#newsletter" class="hover:underline">Newsletter</a>
+                    <a href="katalog.html" class="hover:underline">Koleksi</a>
+                </div>
+                <div class="flex items-center justify-end gap-4">
+                    <span id="areaLogin" class="text-sm"></span>
+                        <a href="keranjang.html" aria-label="Keranjang belanja" class="relative inline-flex p-1 hover:text-amber-300">
+                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <circle cx="9" cy="20" r="1.5" /><circle cx="18" cy="20" r="1.5" />
+                                <path d="M2 3h3l2.7 12.4a1 1 0 0 0 1 .8h8.9a1 1 0 0 0 1-.8L20 7H6" />
+                            </svg>
+                            <span id="badgeKeranjang"
+                            class="absolute -top-1 -right-2 min-w-5 rounded-full bg-amber-400 px-1.5 text-center text-xs font-bold text-slate-900">0</span>
+                        </a>
+                </div>
+        </nav>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-5">Belanja saya</h1>
+
+    <div role="tablist" class="mb-6 flex gap-6 border-b border-slate-300">
+        <button id="tabKeranjang" type="button" role="tab" data-tab="keranjang" aria-controls="panelKeranjang"
+        class="-mb-px border-b-2 px-1 pb-2">Keranjang</button>
+        <button id="tabRiwayat" type="button" role="tab" data-tab="riwayat" aria-controls="panelRiwayat"
+        class="-mb-px border-b-2 px-1 pb-2">Riwayat pesanan</button>
+    </div>
+
+    <div id="panelKeranjang" role="tabpanel">
+    <p id="ringkasanAtas" class="text-slate-600 mb-6"></p>
+
+    <div id="pesanPeringatan" role="alert"
+        class="hidden mb-6 rounded-lg border border-red-300 bg-red-50 p-4 text-red-900"></div>
+
+    <section id="keranjangKosong" class="hidden rounded-lg border border-dashed border-slate-300 bg-white p-10 text-center">
+        <p class="text-lg font-semibold mb-2">Keranjangmu masih kosong</p>
+        <p class="text-slate-600 mb-5">Pilih buku dari koleksi, lalu tambahkan ke keranjang.</p>
+        <a href="katalog.html" class="inline-block rounded bg-slate-900 px-5 py-2 text-[#F6F1E4] hover:bg-slate-700">Lihat koleksi buku</a>
+    </section>
+
+    <section id="keranjangIsi" class="hidden grid gap-8 lg:grid-cols-[1fr_20rem]">
+        <div class="space-y-8">
+            <ul id="daftarKeranjang" class="space-y-4"></ul>
+
+            <!-- Form Checkout-->
+            <form id="formCheckout" class="hidden rounded-lg bg-white p-5 shadow" novalidate>
+                <h2 class="text-xl font-bold mb-4">Data pengiriman</h2>
+
+                <div class="mb-4">
+                    <label for="nama" class="mb-1 block text-sm font-semibold">Nama penerima</label>
+                    <input id="nama" name="nama" type="text" autocomplete="name"
+                        class="w-full rounded border border-slate-300 px-3 py-2 focus:outline-2 focus:outline-amber-500" />
+                    <p id="errNama" class="mt-1 hidden text-sm text-red-700"></p>
+                </div>
+
+                <div class="mb-4">
+                    <label for="telepon" class="mb-1 block text-sm font-semibold">Nomor telepon</label>
+                    <input id="telepon" name="telepon" type="tel" inputmode="numeric" autocomplete="tel" placeholder="08xxxxxxxxxx"
+                    class="w-full rounded border border-slate-300 px-3 py-2 focus:outline-2 focus:outline-amber-500" />
+                    <p id="errTelepon" class="mt-1 hidden text-sm text-red-700"></p>
+                </div>
+
+                <div class="mb-4">
+                    <label for="alamat" class="mb-1 block text-sm font-semibold">Alamat lengkap</label>
+                    <textarea id="alamat" name="alamat" rows="3" autocomplete="street-address"
+                    class="w-full rounded border border-slate-300 px-3 py-2 focus:outline-2 focus:outline-amber-500"></textarea>
+                    <p id="errAlamat" class="mt-1 hidden text-sm text-red-700"></p>
+                </div>
+
+                <div class="mb-5">
+                    <label for="metode" class="mb-1 block text-sm font-semibold">Metode pembayaran</label>
+                    <select id="metode" name="metode"
+                    class="w-full rounded border border-slate-300 bg-white px-3 py-2 focus:outline-2 focus:outline-amber-500">
+                    <option value="Transfer bank">Transfer bank</option>
+                    <option value="E-wallet">E-wallet</option>
+                    <option value="Bayar di tempat (COD)">Bayar di tempat (COD)</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="w-full rounded bg-amber-500 py-2 font-semibold text-slate-900 hover:bg-amber-400">
+                    Buat pesanan
+                </button>
+            </form>
+        </div>
+
+        <aside class="h-fit rounded-lg bg-white p-5 shadow lg:sticky lg:top-28">
+                <h2 class="text-xl font-bold mb-4">Ringkasan pesanan</h2>
+                <dl class="space-y-2 text-sm">
+                    <div class="flex justify-between"><dt>Jumlah buku</dt><dd id="totalItem">0</dd></div>
+                    <div class="flex justify-between border-t pt-3 text-base font-bold">
+                        <dt>Total harga</dt><dd id="totalHarga">Rp0</dd>
+                    </div>
+                </dl>
+            <button id="btnCheckout" type="button"
+                class="mt-5 w-full rounded bg-slate-900 py-2 font-semibold text-[#F6F1E4] hover:bg-slate-700">
+                Checkout</button>
+
+            <button id="btnKosongkan" type="button"
+                class="mt-2 w-full rounded border border-slate-300 py-2 text-sm hover:bg-slate-100">
+                Kosongkan keranjang</button>
+                
+            <a href="katalog.html" class="mt-4 block text-center text-sm underline">Lanjut belanja</a>
+        </aside>
+    </section>
+</div>
+
+
+    <div id="panelRiwayat" role="tabpanel" class="hidden max-w-4xl">
+        <p id="ringkasanRiwayat" class="text-slate-600 mb-6"></p>
+
+        <div id="pesanBaru" class="hidden mb-6 rounded-lg border border-green-300 bg-green-50 p-4 text-green-900"></div>
+
+        <section id="riwayatKosong" class="hidden rounded-lg border border-dashed border-slate-300 bg-white p-10 text-center">
+            <p class="text-lg font-semibold mb-2">Belum ada pesanan</p>
+            <p class="text-slate-600">Pesanan yang kamu buat lewat checkout akan muncul di sini.</p>
+        </section>
+
+        <div id="daftarRiwayat" class="space-y-5"></div>
+
+        <div id="areaAksi" class="mt-8 hidden flex-wrap gap-3 border-t border-slate-300 pt-5">
+            <button id="btnHapusRiwayat" type="button" class="rounded border border-slate-300 px-4 py-2 text-sm hover:bg-slate-100">
+            Hapus riwayat</button>
+            <button id="btnResetStok" type="button" class="rounded border border-slate-300 px-4 py-2 text-sm hover:bg-slate-100">
+            Reset simulasi stok</button>
+        </div>
+    </div>
+</main>
+
+    <script src="js/keranjang.js"></script>
+    <script src="js/riwayat.js"></script>
+    <script src="js/checkout.js"></script>
+</body>
+</html>
