@@ -187,7 +187,7 @@ function openBookModal(id) {
   }
   bukuModalId = id;
 
-  const warna = warnaCover[(b.id - 1) % 4];
+  const warna = warnaCover[(b.id) % 4];
   let sampul = '<p class="absolute bottom-4 left-4 right-4 text-lg text-[#E9D8A6]">' + b.judul + "</p>";
   if (b.cover_img != "") {
     sampul += '<img src="' + b.cover_img + '" alt="' + b.judul + '" onerror="this.style.display=\'none\'" class="absolute inset-0 w-full h-full object-cover">';
@@ -214,9 +214,11 @@ function openBookModal(id) {
           '<button onclick="tutupModal()" class="border-2 border-slate-900 px-5 py-3 font-bold hover:bg-slate-900 hover:text-[#F6F1E4]">Tutup</button>' +
         "</div>" +
       "</div>" +
-    "</div>";
+    "</div>" +
+    '<div id="areaReviews" class="mt-6"></div>';
 
   updateTombolModal();
+  renderReviewsInModal(id);
 
   ambil("modalBuku").classList.remove("hidden");
   ambil("modalBuku").classList.add("flex");

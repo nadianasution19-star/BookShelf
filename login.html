@@ -48,19 +48,19 @@
     </div>
   </main>
 
-  <script src="auth.js"></script>
+  <script src="js/auth.js"></script>
   <script>
     function ambilEl(id) { return document.getElementById(id); }
 
     function tampilPesan(teks, error) {
       const p = ambilEl("pesan");
       p.textContent = teks;
-      if (error) { p.className = "mt-4 text-red-700"; } else { p.className = "mt-4 text-green-700"; }
+      p.className = error ? "mt-4 text-red-700 font-bold" : "mt-4 text-green-700 font-bold";
     }
 
     function pilihTab(nama) {
       ambilEl("pesan").textContent = "";
-      if (nama == "masuk") {
+      if (nama === "masuk") {
         ambilEl("formMasuk").classList.remove("hidden");
         ambilEl("formDaftar").classList.add("hidden");
         ambilEl("tabMasuk").className = "flex-1 py-2 font-bold bg-slate-900 text-[#F6F1E4]";
@@ -73,28 +73,45 @@
       }
     }
 
+    // EVENT SUBMIT FORM LOGIN
     ambilEl("formMasuk").addEventListener("submit", function (e) {
       e.preventDefault();
       const error = loginUser(ambilEl("mEmail").value, ambilEl("mPassword").value);
-      if (error != "") {
+      
+      if (error !== "") {
         tampilPesan(error, true);
       } else {
-        tampilPesan("Berhasil masuk. Mengalihkan ke koleksi...", false);
-        setTimeout(function () { location.href = "katalog.html"; }, 800);
+        const user = getUserLogin();
+        tampilPesan("Berhasil masuk. Mengalihkan...", false);
+        
+        setTimeout(function () {
+          // Jika akun Admin -> lempar ke admin.html, jika Customer -> ke katalog.html
+          if (user && user.user_privilege === "admin") {
+            location.href = "admin.html";
+          } else {
+            location.href = "katalog.html";
+          }
+        }, 800);
       }
     });
 
+    // EVENT SUBMIT FORM DAFTAR
     ambilEl("formDaftar").addEventListener("submit", function (e) {
       e.preventDefault();
-      const error = daftarUser(ambilEl("dNama").value, ambilEl("dEmail").value,
-                               ambilEl("dPassword").value, ambilEl("dKonfirmasi").value);
-      if (error != "") {
+      const error = daftarUser(
+        ambilEl("dNama").value,
+        ambilEl("dEmail").value,
+        ambilEl("dPassword").value,
+        ambilEl("dKonfirmasi").value
+      );
+
+      if (error !== "") {
         tampilPesan(error, true);
       } else {
         ambilEl("mEmail").value = ambilEl("dEmail").value;
         ambilEl("formDaftar").reset();
         pilihTab("masuk");
-        tampilPesan("Akun berhasil dibuat. Silakan masuk.", false);
+        tampilPesan("Akun berhasil dibuat. Silakan masuk dengan password Anda.", false);
       }
     });
 

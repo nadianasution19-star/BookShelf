@@ -9,5 +9,11 @@ function getCategories() {
 }
 
 function getBooks() {
+  const dataLokal = localStorage.getItem("booksData");
+  if (dataLokal != null) {
+    return JSON.parse(dataLokal);
+  }
+  // Jika belum ada di localStorage, simpan data awal dari data.js
+  localStorage.setItem("booksData", JSON.stringify(booksData));
   return booksData;
 }

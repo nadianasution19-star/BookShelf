@@ -159,7 +159,7 @@ function urutkan(list, urut) {
 
 // ---------- Tampilan kartu ----------
 function bookCard(b) {
-  const warna = warnaCover[(b.id - 1) % 4];
+  const warna = warnaCover[(b.id) % 4];
 
   let label = "";
   if (b.status_stok == "habis") {

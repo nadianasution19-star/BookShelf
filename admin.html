@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard - Bookshelf</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style>body { font-family: "Playfair Display", serif; }</style>
+</head>
+
+<script src="js/data.js"></script>
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+
+<script>
+  (function proteksiAdmin() {
+    const user = getUserLogin();
+    
+    // Cek apakah pengguna sudah login dan memiliki privilege 'admin'
+    if (!user || user.user_privilege !== "admin") {
+      alert("Akses ditolak! Halaman ini khusus untuk Admin.");
+      window.location.href = "index.html"; // Lempar balik ke beranda
+    }
+  })();
+</script>
+
+<script src="js/katalog.js"></script>
+<script src="js/admin.js"></script>
+
+<body class="bg-amber-50 text-slate-900">
+
+  <header class="bg-slate-900 text-[#F6F1E4] p-5">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold">BOOKSHELF ADMIN</h1>
+      <a href="katalog.html" class="hover:underline">Lihat Katalog</a>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto p-6">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-3xl font-bold">Kelola Data Buku</h2>
+      <button onclick="bukaModalForm()" class="bg-slate-900 text-white px-5 py-2 font-bold hover:bg-black">
+        + Tambah Buku Baru
+      </button>
+    </div>
+
+    <!-- Tabel Daftar Buku -->
+    <div class="overflow-x-auto bg-white border-2 border-slate-900">
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="bg-slate-900 text-white border-b-2 border-slate-900">
+            <th class="p-3">ID</th>
+            <th class="p-3">Judul</th>
+            <th class="p-3">Penulis</th>
+            <th class="p-3">Harga</th>
+            <th class="p-3">Stok</th>
+            <th class="p-3">Populer</th>
+            <th class="p-3 text-center">Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="tabelBukuAdmin">
+          <!-- Disuntikkan via JS -->
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Modal Form Tambah/Edit -->
+  <div id="modalAdmin" class="hidden fixed inset-0 bg-black/60 z-50 justify-center items-center p-4">
+    <div class="bg-amber-50 border-2 border-slate-900 p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto">
+      <h3 id="modalTitle" class="text-2xl font-bold mb-4">Tambah Buku</h3>
+      <form id="formAdminBuku" onsubmit="simpanBukuAdmin(event)" class="flex flex-col gap-3">
+        <input type="hidden" id="adminBookId" />
+        
+        <div>
+          <label class="block text-sm font-bold">Judul Buku</label>
+          <input type="text" id="adminJudul" required class="w-full border-2 border-slate-900 p-2 bg-white" />
+        </div>
+
+        <div>
+          <label class="block text-sm font-bold">Penulis</label>
+          <input type="text" id="adminPenulis" required class="w-full border-2 border-slate-900 p-2 bg-white" />
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-sm font-bold">Harga (Rp)</label>
+            <input type="number" id="adminHarga" required class="w-full border-2 border-slate-900 p-2 bg-white" />
+          </div>
+          <div>
+            <label class="block text-sm font-bold">Stok</label>
+            <input type="number" id="adminStok" required class="w-full border-2 border-slate-900 p-2 bg-white" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-sm font-bold">Kategori</label>
+            <select id="adminKategori" class="w-full border-2 border-slate-900 p-2 bg-white">
+              <option value="1">Novel</option>
+              <option value="2">Pendidikan</option>
+              <option value="3">Teknologi</option>
+              <option value="4">Bisnis</option>
+              <option value="5">Komik</option>
+              <option value="6">Self-Growth</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-bold">Buku Populer?</label>
+            <select id="adminPopuler" class="w-full border-2 border-slate-900 p-2 bg-white">
+              <option value="tidak">Tidak</option>
+              <option value="ya">Ya</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-bold">URL Cover Image</label>
+          <input type="text" id="adminCover" placeholder="img/nama-file.jpg" class="w-full border-2 border-slate-900 p-2 bg-white" />
+        </div>
+
+        <div>
+          <label class="block text-sm font-bold">Deskripsi</label>
+          <textarea id="adminDeskripsi" rows="3" class="w-full border-2 border-slate-900 p-2 bg-white"></textarea>
+        </div>
+
+        <div class="flex justify-end gap-3 mt-4">
+          <button type="button" onclick="tutupModalAdmin()" class="border-2 border-slate-900 px-4 py-2 font-bold">Batal</button>
+          <button type="submit" class="bg-slate-900 text-white px-4 py-2 font-bold hover:bg-black">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/katalog.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
