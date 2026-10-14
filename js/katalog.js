@@ -161,11 +161,19 @@ function urutkan(list, urut) {
 function bookCard(b) {
   const warna = warnaCover[(b.id) % 4];
 
+  const sisa = ambilStok(b);
+  let status = "tersedia";
+  if (sisa <= 0) {
+    status = "habis";
+  } else if (sisa <= 5) {
+    status = "stok_terbatas";
+  }
+
   let label = "";
-  if (b.status_stok == "habis") {
+  if (status == "habis") {
     label = '<span class="absolute top-2 right-2 bg-[#7B202B] text-white text-xs px-2 py-1">Habis</span>';
   }
-  if (b.status_stok == "stok_terbatas") {
+  if (status == "stok_terbatas") {
     label = '<span class="absolute top-2 right-2 bg-amber-600 text-white text-xs px-2 py-1">Stok terbatas</span>';
   }
 
@@ -177,7 +185,7 @@ function bookCard(b) {
   }
 
   let tombol = "";
-  if (b.status_stok == "habis") {
+  if (status == "habis") {
     tombol = '<span class="font-bold text-gray-400">Stok habis</span>';
   } else {
     tombol = '<button onclick="addToCart(' + b.id + ')" class="font-bold text-left hover:underline">Tambah ke keranjang</button>';
@@ -190,7 +198,7 @@ function bookCard(b) {
     '<h3 class="font-bold mt-4">' + b.judul + "</h3>" +
     '<p class="text-sm text-gray-500">' + b.penulis + " | " + namaKategori(b.kategori_id) + "</p>" +
     '<div class="border-t border-amber-200 mt-2 pt-2 flex items-start justify-between gap-3 text-sm">' +
-      "<span>" + rupiah(b.harga) + "</span>" + tombol +
+      "<span>" + rupiah(b.harga) + '<br><span class="text-xs text-gray-500">Sisa stok: ' + sisa + "</span></span>" + tombol +
     "</div>" +
     '<button onclick="openBookModal(' + b.id + ')" class="mt-3 w-full border-2 border-slate-900 py-2 text-sm font-bold transition hover:bg-slate-900 hover:text-[#F6F1E4]">Lihat detail</button>' +
   "</article>";
